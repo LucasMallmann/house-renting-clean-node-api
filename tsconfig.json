@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "outDir": "./dits",
+    "target": "es2019",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowJs": true
+  }
+}
