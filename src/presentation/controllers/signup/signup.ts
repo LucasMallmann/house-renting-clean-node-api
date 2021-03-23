@@ -16,18 +16,22 @@ export class SignUpController implements IController {
     try {
       const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 
-      const { email } = httpRequest.body
-
       for (const field of requiredFields) {
         if (!httpRequest.body[field]) {
           return badRequest(new MissingParamError(field))
         }
       }
 
+      const { email, password, passwordConfirmation } = httpRequest.body
+
       const isEmailValid = this.emailValidator.isValid(email)
 
       if (!isEmailValid) {
         return badRequest(new InvalidParamError('email'))
+      }
+
+      if (password !== passwordConfirmation) {
+        return badRequest(new InvalidParamError('passwordConfirmation'))
       }
 
       return new Promise(resolve => resolve(null as IHttpResponse))
