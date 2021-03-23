@@ -1,9 +1,9 @@
-import { Controller, HttpRequest, HttpResponse } from './signup-protocols'
+import { IController, IHttpRequest, IHttpResponse } from './signup-protocols'
 import { badRequest } from '../../helpers/http-helper'
 import { MissingParamError } from '../../errors'
 
-export class SignUpController implements Controller {
-  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
+export class SignUpController implements IController {
+  async handle (httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const requiredFields = ['name', 'email', 'password', 'passwordConfirmation']
 
     for (const field of requiredFields) {
@@ -12,6 +12,6 @@ export class SignUpController implements Controller {
       }
     }
 
-    return new Promise(resolve => resolve(null as HttpResponse))
+    return new Promise(resolve => resolve(null as IHttpResponse))
   }
 }
