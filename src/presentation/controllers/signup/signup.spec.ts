@@ -27,13 +27,29 @@ describe('SignUp Controller', () => {
     expect(httpResponse.statusCode).toBe(400)
   })
 
-  test('should return 400 if no emai. is provided', async () => {
+  test('should return 400 if no email is provided', async () => {
     const { sut } = makeSut()
 
     const httpRequest = {
       body: {
-        email: 'any_email@mail.com',
+        name: 'any name',
         password: 'any_email@mail.com',
+        passwordConfirmation: 'any_password'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse.statusCode).toBe(400)
+  })
+
+  test('should return 400 if no password is provided', async () => {
+    const { sut } = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'any name',
+        email: 'anyemail@email.com',
         passwordConfirmation: 'any_password'
       }
     }
