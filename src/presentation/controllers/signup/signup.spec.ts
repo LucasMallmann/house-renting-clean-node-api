@@ -1,5 +1,5 @@
 import { SignUpController } from './signup'
-import { InvalidParamError } from '../../errors'
+import { MissingParamError } from '../../errors'
 
 interface SutTypes {
   sut: SignUpController
@@ -26,7 +26,7 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('name'))
+    expect(httpResponse.body).toEqual(new MissingParamError('name'))
   })
 
   test('should return 400 if no email is provided', async () => {
@@ -43,7 +43,7 @@ describe('SignUp Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new InvalidParamError('email'))
+    expect(httpResponse.body).toEqual(new MissingParamError('email'))
   })
 
   test('should return 400 if no password is provided', async () => {
@@ -58,7 +58,24 @@ describe('SignUp Controller', () => {
     }
 
     const httpResponse = await sut.handle(httpRequest)
-    expect(httpResponse.body).toEqual(new InvalidParamError('password'))
+    expect(httpResponse.body).toEqual(new MissingParamError('password'))
+
+    expect(httpResponse.statusCode).toBe(400)
+  })
+
+  test('should return 400 if no passwordConfirmation is provided', async () => {
+    const { sut } = makeSut()
+
+    const httpRequest = {
+      body: {
+        name: 'any name',
+        email: 'anyemail@email.com',
+        password: 'any_password'
+      }
+    }
+
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.body).toEqual(new MissingParamError('passwordConfirmation'))
 
     expect(httpResponse.statusCode).toBe(400)
   })
