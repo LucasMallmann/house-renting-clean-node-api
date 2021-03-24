@@ -1,7 +1,21 @@
 import request from 'supertest'
+import { MongoHelper } from '../../infra/db/mongodb/helpers/mongo-helper'
 import app from '../config/app'
 
 describe('Content Type Middleware', () => {
+  beforeAll(async () => {
+    await MongoHelper.connect(process.env.MONGO_URL as string)
+  })
+
+  afterAll(async () => {
+    await MongoHelper.disconnect()
+  })
+
+  beforeEach(async () => {
+    const accountsCollection = await MongoHelper.getCollection('accounts')
+    await accountsCollection.deleteMany({})
+  })
+
   test('should return default content type as JSON', async () => {
     app.get('/test-content-type-json', (request, response) => {
       return response.send('')
