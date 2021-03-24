@@ -7,6 +7,7 @@
     "test": "jest --passWithNoTests --runInBand",
     "test:verbose": "jest --passWithNoTests",
     "test:unit": "npm test -- --watch -c jest-unit-config.js",
+    "test:ci": "npm test -- --coverage",
     "prepare": "husky install"
   },
   "keywords": [],
