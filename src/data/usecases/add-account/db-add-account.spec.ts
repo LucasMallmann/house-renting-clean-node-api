@@ -123,4 +123,23 @@ describe('Db Add Account', () => {
 
     await expect(accountPromise).rejects.toThrow()
   })
+
+  test('should return an account on success', async () => {
+    const { sut } = makeSut()
+
+    const accountData = {
+      name: 'valid_name',
+      email: 'valid_email@email.com',
+      password: 'valid_password'
+    }
+
+    const account = await sut.add(accountData)
+
+    expect(account).toEqual({
+      id: 'valid_id',
+      name: 'valid_name',
+      email: 'valid_email@email.com',
+      password: HASHED_PASSWORD_STUB_VALUE
+    })
+  })
 })
