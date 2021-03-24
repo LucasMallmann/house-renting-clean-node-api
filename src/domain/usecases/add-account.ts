@@ -1,6 +1,6 @@
 import { IAccountModel } from '../models/add-account'
 
-interface IAddAccountModel {
+export interface IAddAccountModel {
   name: string
   email: string
   password: string
