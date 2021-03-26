@@ -1,12 +1,12 @@
 import {
-  IAddAccount as IAddAccountDomain,
-  IAddAccountParams as IAddAccountParamsDomain
+  AddAccount as IAddAccountDomain,
+  AddAccountParams as IAddAccountParamsDomain
 } from '../../domain/usecases/add-account'
 
-import { IAccountModel as IAccountModelDomain } from '../../domain/models/add-account'
+import { AccountModel as AccountModelDomain } from '../../domain/models/add-account'
 
-export type IAddAccount = IAddAccountDomain
+export type AddAccount = IAddAccountDomain
 
-export type IAddAccountParams = IAddAccountParamsDomain
+export type AddAccountParams = IAddAccountParamsDomain
 
-export type IAccountModel = IAccountModelDomain
+export type AccountModel = AccountModelDomain

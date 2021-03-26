@@ -1,12 +1,12 @@
 import { SignUpController } from './signup'
 import { InvalidParamError, MissingParamError } from '../../errors'
-import { IEmailValidator } from '../../protocols/email-validator'
-import { IHttpRequest } from '../../protocols'
+import { EmailValidator } from '../../protocols/email-validator'
+import { HttpRequest } from '../../protocols'
 import { ServerError } from '../../errors/server-error'
-import { IAddAccount, IAccountModel, IAddAccountParams } from './signup-protocols'
+import { AddAccount, AccountModel, AddAccountParams } from './signup-protocols'
 
 const makeEmailValidator = () => {
-  class EmailValidatorStub implements IEmailValidator {
+  class EmailValidatorStub implements EmailValidator {
     isValid (email: string): boolean {
       return true
     }
@@ -15,9 +15,9 @@ const makeEmailValidator = () => {
   return new EmailValidatorStub()
 }
 
-const makeAddAccount = (): IAddAccount => {
-  class AddAccountStub implements IAddAccount {
-    add (data: IAddAccountParams): Promise<IAccountModel> {
+const makeAddAccount = (): AddAccount => {
+  class AddAccountStub implements AddAccount {
+    add (data: AddAccountParams): Promise<AccountModel> {
       return new Promise(resolve => resolve(makeFakeAccount()))
     }
   }
@@ -25,7 +25,7 @@ const makeAddAccount = (): IAddAccount => {
   return new AddAccountStub()
 }
 
-const makeFakeRequest = (): IHttpRequest => {
+const makeFakeRequest = (): HttpRequest => {
   return {
     body: {
       name: 'any_name',
@@ -36,7 +36,7 @@ const makeFakeRequest = (): IHttpRequest => {
   }
 }
 
-const makeFakeAccount = (): IAccountModel => {
+const makeFakeAccount = (): AccountModel => {
   return {
     id: 'valid_id',
     name: 'valid_name',
@@ -47,8 +47,8 @@ const makeFakeAccount = (): IAccountModel => {
 
 interface SutTypes {
   sut: SignUpController
-  emailValidatorStub: IEmailValidator
-  addAccountStub: IAddAccount
+  emailValidatorStub: EmailValidator
+  addAccountStub: AddAccount
 }
 
 const makeSut = (): SutTypes => {

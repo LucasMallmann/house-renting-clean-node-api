@@ -1,5 +1,5 @@
-import { IAddAccountParams, IAccountModel } from '../models/add-account'
+import { AddAccountParams, AccountModel } from '../models/add-account'
 
-export interface IAddAccountRepository {
-  add: (account: IAddAccountParams) => Promise<IAccountModel>
+export interface AddAccountRepository {
+  add: (account: AddAccountParams) => Promise<AccountModel>
 }

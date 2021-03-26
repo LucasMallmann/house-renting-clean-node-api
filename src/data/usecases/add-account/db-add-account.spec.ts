@@ -1,5 +1,5 @@
-import { IAccountModel, IAddAccountParams } from '../../models/add-account'
-import { IAddAccountRepository } from '../../protocols/add-account-repository'
+import { AccountModel, AddAccountParams } from '../../models/add-account'
+import { AddAccountRepository } from '../../protocols/add-account-repository'
 import { IEncrypter } from '../../protocols/encrypter'
 import { DbAddAccount } from './db-add-account'
 
@@ -15,9 +15,9 @@ const makeEncrypter = (): IEncrypter => {
   return new EncrypterStub()
 }
 
-const makeAddAccountRepository = (): IAddAccountRepository => {
-  class AddAccountRepositoryStub implements IAddAccountRepository {
-    async add (account: IAddAccountParams): Promise<IAccountModel> {
+const makeAddAccountRepository = (): AddAccountRepository => {
+  class AddAccountRepositoryStub implements AddAccountRepository {
+    async add (account: AddAccountParams): Promise<AccountModel> {
       const fakeAccount = {
         id: 'valid_id',
         name: 'valid_name',
@@ -35,7 +35,7 @@ const makeAddAccountRepository = (): IAddAccountRepository => {
 interface SutTypes {
   sut: DbAddAccount
   encrypterStub: IEncrypter
-  addAccountRepositoryStub: IAddAccountRepository
+  addAccountRepositoryStub: AddAccountRepository
 }
 
 const makeSut = (): SutTypes => {
