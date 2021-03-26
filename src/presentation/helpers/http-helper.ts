@@ -1,10 +1,12 @@
 import { ServerError } from '../errors/server-error'
 import { IHttpResponse } from '../protocols'
 
-export const badRequest = (error: Error): IHttpResponse => ({
-  statusCode: 400,
-  body: error
-})
+export const badRequest = (error: Error): IHttpResponse => {
+  return {
+    statusCode: 400,
+    body: error
+  }
+}
 
 export const serverError = (error: Error): IHttpResponse => ({
   statusCode: 500,
