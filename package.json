@@ -7,8 +7,8 @@
     "start": "sucrase-node src/main/server.ts",
     "test": "jest --passWithNoTests --runInBand",
     "test:verbose": "jest --passWithNoTests",
-    "test:unit": "npm test -- --watch -c jest-unit-config.js",
-    "test:integration": "npm test -- --watch -c jest-integration-config.js",
+    "test:unit": "npm test -- -o --watch",
+    "test:integration": "npm test -- -o --watch -c jest-integration-config.js",
     "test:ci": "npm test -- --coverage",
     "test:staged": "npm test -- --findRelatedTests",
     "prepare": "husky install"

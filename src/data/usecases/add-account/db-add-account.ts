@@ -1,5 +1,6 @@
 import {
   AddAccountRepository,
+  LoadAccountByEmailRepository,
   IEncrypter,
   AddAccount,
   AccountModel,
@@ -7,21 +8,19 @@ import {
 } from './db-add-account-protocols'
 
 export class DbAddAccount implements AddAccount {
-  private readonly encrypter: IEncrypter
-  private readonly addAccountRepository: AddAccountRepository
-
-  constructor (encrypter: IEncrypter, addAccountRepository: AddAccountRepository) {
-    this.encrypter = encrypter
-    this.addAccountRepository = addAccountRepository
-  }
+  constructor (
+    private readonly encrypter: IEncrypter,
+    private readonly addAccountRepository: AddAccountRepository,
+    private readonly loadAccountByEmailRepository: LoadAccountByEmailRepository
+  ) { }
 
   async add (accountData: AddAccountParams): Promise<AccountModel> {
+    await this.loadAccountByEmailRepository.loadByEmail(accountData.email)
     const { password } = accountData
     const hashedPassword = await this.encrypter.encrypt(password)
     const account = await this.addAccountRepository.add(
       Object.assign({}, accountData, { password: hashedPassword })
     )
-
     return account
   }
 }
