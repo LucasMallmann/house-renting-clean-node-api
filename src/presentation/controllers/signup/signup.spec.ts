@@ -1,9 +1,10 @@
 import { SignUpController } from './signup'
-import { InvalidParamError, MissingParamError } from '../../errors'
+import { EmailInUseError, InvalidParamError, MissingParamError } from '../../errors'
 import { EmailValidator } from '../../protocols/email-validator'
 import { HttpRequest } from '../../protocols'
 import { ServerError } from '../../errors/server-error'
 import { AddAccount, AccountModel, AddAccountParams } from './signup-protocols'
+import { forbidden } from '../../helpers/http-helper'
 
 const makeEmailValidator = () => {
   class EmailValidatorStub implements EmailValidator {
@@ -221,6 +222,13 @@ describe('SignUp Controller', () => {
 
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError(null as string))
+  })
+
+  test('should return 403 if email already exists and AddAccount returns null', async () => {
+    const { sut, addAccountStub } = makeSut()
+    jest.spyOn(addAccountStub, 'add').mockReturnValueOnce(Promise.resolve(null))
+    const httpResponse = await sut.handle(makeFakeRequest())
+    expect(httpResponse).toEqual(forbidden(new EmailInUseError()))
   })
 
   test('should return 200 if valid data is provided', async () => {
